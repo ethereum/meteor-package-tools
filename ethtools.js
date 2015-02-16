@@ -14,7 +14,7 @@ Helper functions for ethereum dapps
 EthTools = {};
 
 /**
-Takes a number fo wei and converts it to any other ether unit.
+Takes a number of wei and converts it to any other ether unit.
 
 Possible units are:
 
@@ -29,12 +29,12 @@ Possible units are:
     - gether
     - tether
 
-@method convertWei
+@method fromWei
 @param {Number|String} number can be a number or a HEX of a decimal
 @param {String} unit the unit to convert to
 @return {Number}
 */
-EthTools.convertWei = function(number, unit) {
+EthTools.fromWei = function(number, unit) {
     if(_.isString(number) && number.indexOf('0x') === 0)
         number = web3.toDecimal(number);
 
@@ -75,6 +75,74 @@ EthTools.convertWei = function(number, unit) {
             break;
         case 'tether':
             number /= 1000000000000000000000000000000;
+            break;
+    }
+
+    return number;
+};
+
+/**
+Takes a number of a unit and converts it to wei.
+
+Possible units are:
+
+    - kwei/ada
+    - mwei/babbage
+    - gwei/shannon
+    - szabo
+    - finney
+    - ether
+    - kether/grand/einstein
+    - mether
+    - gether
+    - tether
+
+@method toWei
+@param {Number|String} number can be a number or a HEX of a decimal
+@param {String} unit the unit to convert to
+@return {Number}
+*/
+EthTools.toWei = function(number, unit) {
+    if(_.isString(number) && number.indexOf('0x') === 0)
+        number = web3.toDecimal(number);
+
+    unit = unit.toLowerCase();
+
+    switch(unit) {
+        case 'kwei':
+        case 'ada':
+            number *= 1000;
+            break;
+        case 'mwei':
+        case 'babbage':
+            number *= 1000000;
+            break;
+        case 'gwei':
+        case 'schannon':
+            number *= 1000000000;
+            break;
+        case 'szabo':
+            number *= 1000000000000;
+            break;
+        case 'finney':
+            number *= 1000000000000000;
+            break;
+        case 'ether':
+            number *= 1000000000000000000;
+            break;
+        case 'kether':
+        case 'grand':
+        case 'einstein':
+            number *= 1000000000000000000000;
+            break;
+        case 'mether':
+            number *= 1000000000000000000000000;
+            break;
+        case 'gether':
+            number *= 1000000000000000000000000000;
+            break;
+        case 'tether':
+            number *= 1000000000000000000000000000000;
             break;
     }
 
