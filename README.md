@@ -18,13 +18,13 @@ You can also pass a HEX of a decimal as the `wei` parameter.
 
 Possible units are:
 
-    - kwei
-    - mwei
-    - gwei
+    - kwei/ada
+    - mwei/babbage
+    - gwei/shannon
     - szabo
     - finney
     - ether
-    - kether/grand
+    - kether/grand/einstein
     - mether
     - gether
     - tether

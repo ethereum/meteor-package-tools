@@ -18,13 +18,13 @@ Takes a number fo wei and converts it to any other ether unit.
 
 Possible units are:
 
-    - kwei
-    - mwei
-    - gwei
+    - kwei/ada
+    - mwei/babbage
+    - gwei/shannon
     - szabo
     - finney
     - ether
-    - kether/grand
+    - kether/grand/einstein
     - mether
     - gether
     - tether
@@ -42,12 +42,15 @@ EthTools.convertWei = function(number, unit) {
 
     switch(unit) {
         case 'kwei':
+        case 'ada':
             number /= 1000;
             break;
         case 'mwei':
+        case 'babbage':
             number /= 1000000;
             break;
         case 'gwei':
+        case 'schannon':
             number /= 1000000000;
             break;
         case 'szabo':
@@ -61,6 +64,7 @@ EthTools.convertWei = function(number, unit) {
             break;
         case 'kether':
         case 'grand':
+        case 'einstein':
             number /= 1000000000000000000000;
             break;
         case 'mether':
