@@ -59,8 +59,8 @@ Possible units are:
 Example:
 
 ```js
-var wei = EthTools.toWei(1000000000000, 'finney');
-// wei = 0.001
+var wei = EthTools.toWei(20, 'finney');
+// wei = 20000000000000000
 ```
 
 ### EthTools.isAddress
