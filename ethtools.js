@@ -35,50 +35,57 @@ Possible units are:
 @return {Number}
 */
 EthTools.fromWei = function(number, unit) {
-    if(_.isString(number) && number.indexOf('0x') === 0)
+    if(!number)
+        return number;
+
+    if(typeof number === 'string' && number.indexOf('0x') === 0)
         number = web3.toDecimal(number);
+    
+    if(!(number instanceof BigNumber))
+        number = new BigNumber(number.toString()); // toString to prevent errors, the user have to handle giving correct bignums themselves
+
 
     unit = unit.toLowerCase();
 
     switch(unit) {
         case 'kwei':
         case 'ada':
-            number /= 1000;
+            number = number.dividedBy(1000);
             break;
         case 'mwei':
         case 'babbage':
-            number /= 1000000;
+            number = number.dividedBy(1000000);
             break;
         case 'gwei':
         case 'schannon':
-            number /= 1000000000;
+            number = number.dividedBy(1000000000);
             break;
         case 'szabo':
-            number /= 1000000000000;
+            number = number.dividedBy(1000000000000);
             break;
         case 'finney':
-            number /= 1000000000000000;
+            number = number.dividedBy(1000000000000000);
             break;
         case 'ether':
-            number /= 1000000000000000000;
+            number = number.dividedBy(1000000000000000000);
             break;
         case 'kether':
         case 'grand':
         case 'einstein':
-            number /= 1000000000000000000000;
+            number = number.dividedBy(1000000000000000000000);
             break;
         case 'mether':
-            number /= 1000000000000000000000000;
+            number = number.dividedBy(1000000000000000000000000);
             break;
         case 'gether':
-            number /= 1000000000000000000000000000;
+            number = number.dividedBy(1000000000000000000000000000);
             break;
         case 'tether':
-            number /= 1000000000000000000000000000000;
+            number = number.dividedBy(1000000000000000000000000000000);
             break;
     }
 
-    return number;
+    return number.toNumber();
 };
 
 /**
@@ -103,50 +110,57 @@ Possible units are:
 @return {Number}
 */
 EthTools.toWei = function(number, unit) {
-    if(_.isString(number) && number.indexOf('0x') === 0)
+    if(!number)
+        return number;
+
+    if(typeof number === 'string' && number.indexOf('0x') === 0)
         number = web3.toDecimal(number);
+
+    if(!(number instanceof BigNumber))
+        number = new BigNumber(number.toString());// toString to prevent errors, the user have to handle giving correct bignums themselves
+
 
     unit = unit.toLowerCase();
 
     switch(unit) {
         case 'kwei':
         case 'ada':
-            number *= 1000;
+            number = number.times(1000);
             break;
         case 'mwei':
         case 'babbage':
-            number *= 1000000;
+            number = number.times(1000000);
             break;
         case 'gwei':
         case 'schannon':
-            number *= 1000000000;
+            number = number.times(1000000000);
             break;
         case 'szabo':
-            number *= 1000000000000;
+            number = number.times(1000000000000);
             break;
         case 'finney':
-            number *= 1000000000000000;
+            number = number.times(1000000000000000);
             break;
         case 'ether':
-            number *= 1000000000000000000;
+            number = number.times(1000000000000000000);
             break;
         case 'kether':
         case 'grand':
         case 'einstein':
-            number *= 1000000000000000000000;
+            number = number.times(1000000000000000000000);
             break;
         case 'mether':
-            number *= 1000000000000000000000000;
+            number = number.times(1000000000000000000000000);
             break;
         case 'gether':
-            number *= 1000000000000000000000000000;
+            number = number.times(1000000000000000000000000000);
             break;
         case 'tether':
-            number *= 1000000000000000000000000000000;
+            number = number.times(1000000000000000000000000000000);
             break;
     }
 
-    return number;
+    return number.toNumber();
 };
 
 

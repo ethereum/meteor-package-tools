@@ -2,10 +2,16 @@
 
 A set of helper functions for ethereum dapps.
 
+Requires the ethereum.js `web3` object to be available.
+
+
 ## Installation
 
 You can either add it as a Meteor package with `$ meteor add ethereum:tools`, 
 or add simply link to the `ethtools.js` in you HTML.
+
+Note: If you use it not as a meteor package, you need to have the `BigNumber` library available (also required for ethereum.js).
+
 
 ## Usage
 

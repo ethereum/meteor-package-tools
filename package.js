@@ -1,13 +1,14 @@
 Package.describe({
   name: 'ethereum:tools',
   summary: 'Helper functions for dapps',
-  version: '0.0.6',
+  version: '0.0.7',
   git: 'http://github.com/ethereum/meteor-package-tools'
 });
 
 Package.onUse(function(api) {
   api.versionsFrom('1.0');
-  api.use('underscore', 'client');
+
+  api.use('3stack:bignumber@2.0.0', 'client');
 
   api.export('EthTools', 'client');
 
