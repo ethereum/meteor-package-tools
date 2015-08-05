@@ -43,4 +43,4 @@ and will rerun any reactive function where its used in.
 ```js
 var amount = EthTools.formatBalance(112345676543212345, '0,0.0[00]', 'finney');
 // amount = "112.346 finney"
-``
+```
