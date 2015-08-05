@@ -17,7 +17,7 @@ Additionally this package exposes the following packages, when used as a meteor 
 
 ### EthTools.formatNumber
 
-    EthTools.formatNumber(number, format)
+        
 
 Fomats any number using `numeral.js`
 
@@ -38,9 +38,22 @@ formats a number of wei into any other ethereum unit and adds the unit on the en
 Default is unit `ether`.
 
 Additionally this function in reactive when setting the unit using `LocalStore.set('dapp_etherUnit', 'finney')` 
-and will rerun any reactive function where its used in.
+and will re-run any reactive function where its used in.
 
 ```js
 var amount = EthTools.formatBalance(112345676543212345, '0,0.0[00]', 'finney');
 // amount = "112.346 finney"
+```
+
+### EthTools.locale
+
+    EthTools.locale(locale)
+
+Set the locale to display numbers differently in other countries.
+This functions lets `EthTools.formatBalance()` and `EthTools.formatNumber()` reactivly re-run, to show the new format.
+
+```js
+EthTools.locale('de');
+EthTools.formatNumber(2000, '0,0.00');
+// 2 000,00
 ```

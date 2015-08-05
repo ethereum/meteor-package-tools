@@ -21,6 +21,32 @@ if(typeof LocalStore === 'undefined')
         set: function(){}
     };
 
+// stup Tracker if not available
+if(typeof Tracker === 'undefined')
+    Tracker = {
+        Dependency: function(){
+            return {
+                depend: function(){},
+                changed: function(){}
+            }
+        }
+    };
+
+var dependency = new Tracker.Dependency;
+
+/**
+Sets the locale to display numbers in different formats.
+
+    EthTools.locale('de')
+
+@method language
+@param {String} lang the locale like "de" or "de-DE"
+**/
+EthTools.locale = function(lang){
+    numeral.language(lang.substr(0,2));
+    dependency.changed();
+};
+
 /**
 Formats a given number
 
@@ -32,6 +58,8 @@ Formats a given number
 @return {String} The formated time
 **/
 EthTools.formatNumber = function(number, format){
+    dependency.depend();
+
     if(format instanceof Spacebars.kw)
         format = null;
 
@@ -58,6 +86,8 @@ Formats a number to balance.
 @return {String} The formatted number
 **/
 EthTools.formatBalance = function(number, format, unit){
+    dependency.depend();
+    
     var localstorageUnit = LocalStore.get('dapp_etherUnit');
 
     if(!localstorageUnit)
