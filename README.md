@@ -2,88 +2,45 @@
 
 A set of helper functions for ethereum dapps.
 
-Requires the ethereum.js `web3` object to be available.
-
 
 ## Installation
 
-You can either add it as a Meteor package with `$ meteor add ethereum:tools`, 
-or add simply link to the `ethtools.js` in you HTML.
+You can either add it as a Meteor package using `$ meteor add ethereum:tools`, 
+or add link to the `ethtools.js` in your HTML.
 
-Note: If you use it not as a meteor package, you need to have the `BigNumber` library available (also required for ethereum.js).
+Additionally this package exposes the following packages, when used as a meteor package:
+
+- [frozeman:storage](https://atmospherejs.com/frozeman/storage), which gives you the `LocalStore.set()/.get()` functions (used for `dapp_formatBalance`).
 
 
 ## Usage
 
-### EthTools.fromWei
+### EthTools.formatNumber
 
-    EthTools.fromWei(wei, unit)
+    EthTools.formatNumber(number, format)
 
-Takes a number of wei and converts it to any other ethereum unit.
-You can also pass a HEX of a decimal as the `wei` parameter.
+Fomats any number using `numeral.js`
 
-Possible units are:
-
-    - kwei/ada
-    - mwei/babbage
-    - gwei/shannon
-    - szabo
-    - finney
-    - ether
-    - kether/grand/einstein
-    - mether
-    - gether
-    - tether
 
 Example:
 
 ```js
-var finney = EthTools.fromWei(1000000000000, 'finney');
-// finney = 0.001
+var finney = EthTools.formatNumber(2000, '0,0.00');
+// finney = '2,000.00'
 ```
 
-### EthTools.toWei
+### EthTools.formatBalance
 
-    EthTools.toWei(number, unit)
+    EthTools.formatBalance(number, format, unit)
 
-Takes a number of a unit and converts it to wei.
-You can also pass a HEX of a decimal as the `number` parameter.
+formats a number of wei into any other ethereum unit and adds the unit on the end.
 
-Possible units are:
+Default is unit `ether`.
 
-    - kwei/ada
-    - mwei/babbage
-    - gwei/shannon
-    - szabo
-    - finney
-    - ether
-    - kether/grand/einstein
-    - mether
-    - gether
-    - tether
-
-Example:
+Additionally this function in reactive when setting the unit using `LocalStore.set('dapp_etherUnit', 'finney')` 
+and will rerun any reactive function where its used in.
 
 ```js
-var wei = EthTools.toWei(20, 'finney');
-// wei = 20000000000000000
-```
-
-### EthTools.isAddress
-
-    EthTools.isAddress(address)
-
-Checks if the given string is a valid ethereum HEX address.
-
-Example:
-
-```js
-EthTools.isAddress('0x9b22a80d5c7b3374a05b446081f97d0a34079e7f');
-// returns true
-
-EthTools.isAddress('9b22a80d5c7b3374a05b446081f97d0a34079e7f');
-// returns true
-
-EthTools.isAddress('0x9b22a80d5c7b3374a05b');
-// returns false
-```
+var amount = EthTools.formatBalance(112345676543212345, '0,0.0[00]', 'finney');
+// amount = "112.346 finney"
+``
