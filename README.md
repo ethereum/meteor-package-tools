@@ -5,7 +5,10 @@ A set of helper functions for ethereum dapps.
 
 ## Installation
 
-You can either add it as a Meteor package using `$ meteor add ethereum:tools`, 
+You can either add it as a Meteor package using:
+
+    $ meteor add ethereum:tools
+
 or add link to the `ethtools.js` in your HTML.
 
 Additionally this package exposes the following packages, when used as a meteor package:
