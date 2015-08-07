@@ -125,12 +125,12 @@ if(isMeteorPackage) {
 /**
 Sets the locale to display numbers in different formats.
 
-    EthTools.locale('de')
+    EthTools.setLocale('de')
 
 @method language
 @param {String} lang the locale like "de" or "de-DE"
 **/
-EthTools.locale = function(lang){
+EthTools.setLocale = function(lang){
     var lang = lang.substr(0,2);
     numeral.language(lang);
     dependency.changed();

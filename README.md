@@ -70,9 +70,9 @@ if(usd)
 
 ***
 
-### EthTools.locale
+### EthTools.setLocale
 
-    EthTools.locale(locale)
+    EthTools.setLocale(locale)
 
 Set the locale to display numbers differently in other countries.
 This functions lets `EthTools.formatBalance()` and `EthTools.formatNumber()` reactivly re-run, to show the new format.
@@ -88,7 +88,7 @@ This functions lets `EthTools.formatBalance()` and `EthTools.formatNumber()` rea
 **Example**
 
 ```js
-EthTools.locale('de');
+EthTools.setLocale('de');
 EthTools.formatNumber(2000, '0,0.00');
 // 2 000,00
 ```
