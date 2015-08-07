@@ -4,6 +4,7 @@ Template Controllers
 @module Packages
 */
 
+
 /**
 Helper functions for ethereum dapps
 
@@ -11,15 +12,16 @@ Helper functions for ethereum dapps
 @constructor
 */
 
-EthTools = {};
+var isMeteorPackage = true;
 
-
-// stup LocalStore if not available
-if(typeof LocalStore === 'undefined')
+// setup LocalStore if not available
+if(typeof LocalStore === 'undefined') {
+    isMeteorPackage = false;
     LocalStore = {
         get: function(){},
         set: function(){}
     };
+}
 
 // stup Tracker if not available
 if(typeof Tracker === 'undefined')
@@ -35,6 +37,92 @@ if(typeof Tracker === 'undefined')
 var dependency = new Tracker.Dependency;
 
 /**
+Check for supported currencies
+
+@method supportedCurrencies
+@param {String} unit
+@return {String}
+*/
+var supportedCurrencies = function(unit){
+    return (unit === 'usd' ||
+           unit === 'eur' ||
+           unit === 'cad' ||
+           unit === 'gbp' ||
+           unit === 'jpy' ||
+           unit === 'btc');
+};
+
+/**
+Gets the ether unit if not set from localstorage
+
+@method getUnit
+@param {String} unit
+@return {String}
+*/
+var getUnit = function(unit){
+    if(!_.isString(unit)) {
+        unit = LocalStore.get('dapp_etherUnit');
+
+        if(!unit) {
+            unit = 'ether';
+            LocalStore.set('dapp_etherUnit', unit);        
+        }
+    }
+
+    return unit;
+};
+
+
+
+/**
+Helper functions for ethereum dapps
+
+@class EthTools
+@constructor
+*/
+
+EthTools = {};
+
+if(isMeteorPackage) {
+
+    /**
+    Sets the default unit used by all EthTools functions, if no unit is provided.
+
+        EthTools.setUnit('ether')
+
+    @method setUnit
+    @param {String} unit the unit like 'ether', or 'eur'
+    @param {Boolean}
+    **/
+    EthTools.setUnit = function(unit){
+        if(supportedCurrencies(unit)) {
+            LocalStore.set('dapp_etherUnit', unit);
+            return true;
+        } else {
+            try {
+                web3.toWei(1, unit);
+                LocalStore.set('dapp_etherUnit', unit);
+                return true;
+            } catch(e) {
+                return false;
+            }
+        }
+    };
+
+    /**
+    Get the default unit used by all EthTools functions, if no unit is provided.
+
+        EthTools.getUnit()
+
+    @method getUnit
+    @return {String} unit the unit like 'ether', or 'eur'
+    **/
+    EthTools.getUnit = function(){
+        return LocalStore.get('dapp_etherUnit');
+    };
+}
+
+/**
 Sets the locale to display numbers in different formats.
 
     EthTools.locale('de')
@@ -43,8 +131,11 @@ Sets the locale to display numbers in different formats.
 @param {String} lang the locale like "de" or "de-DE"
 **/
 EthTools.locale = function(lang){
-    numeral.language(lang.substr(0,2));
+    var lang = lang.substr(0,2);
+    numeral.language(lang);
     dependency.changed();
+
+    return lang;
 };
 
 /**
@@ -60,13 +151,16 @@ Formats a given number
 EthTools.formatNumber = function(number, format){
     dependency.depend();
 
+    if(!_.isFinite(number) && !(number instanceof BigNumber))
+        number = 0;
+
     if(format instanceof Spacebars.kw)
         format = null;
 
     if(number instanceof BigNumber)
         number = number.toString(10);
 
-    format = format || '0,0.0[0000]';
+    format = format || '0,0.[00]';
 
     if(!_.isFinite(number))
         number = numeral().unformat(number);
@@ -76,9 +170,9 @@ EthTools.formatNumber = function(number, format){
 };
 
 /**
-Formats a number to balance.
+Formats a number of wei to a balance.
 
-    EthTools.formatBalance(myNumber, "0,0.0[0000]")
+    EthTools.formatBalance(myNumber, "0,0.0[0000] unit")
 
 @method (formatBalance)
 @param {String} number
@@ -87,17 +181,81 @@ Formats a number to balance.
 **/
 EthTools.formatBalance = function(number, format, unit){
     dependency.depend();
+
+    if(!_.isFinite(number) && !(number instanceof BigNumber))
+        number = 0;
     
-    var localstorageUnit = LocalStore.get('dapp_etherUnit');
+    unit = getUnit(unit);
 
-    if(!localstorageUnit)
-        LocalStore.set('dapp_etherUnit', 'ether');
+    if(typeof EthTools.ticker !== 'undefined' && supportedCurrencies(unit)) {
+        var ticker = EthTools.ticker.findOne(unit, {fields: {price: 1}});
 
-    unit = _.isString(unit) ? unit : (localstorageUnit || 'ether');
+        // convert first to ether
+        number = web3.fromWei(number, 'ether');
 
-    number = web3.fromWei(number, unit.toLowerCase());
+        // then times the currency
+        if(ticker) {
+            number = (number instanceof BigNumber)
+                ? number.times(ticker.price)
+                : new BigNumber(String(number), 10).times(ticker.price);
 
-    return EthTools.formatNumber(number, format) +' '+ unit;
+        } else {
+            number = '0';
+        }
+
+    } else {
+        number = web3.fromWei(number, unit.toLowerCase());
+    }
+
+
+    var cleanedFormat = format.replace(' unit','').replace('UNIT','').replace(/ +/,'');
+
+    if(format.toLowerCase().indexOf('unit') !== -1) {
+        if(format.indexOf('UNIT') !== -1)
+            unit = unit.toUpperCase();
+        return EthTools.formatNumber(number, cleanedFormat) +' '+ unit;
+    } else
+        return EthTools.formatNumber(number, cleanedFormat);
 };
 
 
+/**
+Formats any of the supported currency to ethereum wei.
+
+    EthTools.toWei(myNumber, unit)
+
+@method (toWei)
+@param {String} number
+@return {String} unit
+**/
+EthTools.toWei = function(number, unit){
+
+    if(!_.isFinite(number) && !(number instanceof BigNumber))
+        return number;
+
+    unit = getUnit(unit);
+
+    if(typeof EthTools.ticker !== 'undefined' && supportedCurrencies(unit)) {
+        var ticker = EthTools.ticker.findOne(unit, {fields: {price: 1}});
+
+        // convert first to ether
+        number = web3.toWei(number, 'ether');
+
+        // then times the currency
+        if(ticker) {
+            number = (number instanceof BigNumber)
+                ? number.dividedBy(ticker.price)
+                : new BigNumber(String(number), 10).dividedBy(ticker.price);
+
+            // make sure the number is flat
+            number = number.round(0).toString(10);
+        } else {
+            number = '0';
+        }
+
+    } else {
+        number = web3.toWei(number, unit.toLowerCase());
+    }
+
+    return number;
+};
