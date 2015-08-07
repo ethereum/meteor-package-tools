@@ -2,6 +2,7 @@
 
 A set of helper functions for ethereum dapps.
 
+See here for a [demo of the template helpers](http://localhost:4000/#tools).
 
 ## Installation
 
