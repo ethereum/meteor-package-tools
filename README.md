@@ -17,7 +17,7 @@ or add link to the `ethtools.js` in your HTML.
 
 This package provides formating and converting functionality.
 
-When using this package as a Meteor package it will call regularly the [kraken.com public API](https://api.kraken.com/0/public/Ticker?pair=XETHZEUR,XXBTZUSD) to retrive price information for ether.
+When using this package as a Meteor package it will call the [kraken.com public API](https://api.kraken.com/0/public/Ticker?pair=XETHZEUR,XXBTZUSD) every 30s to retrive price information for ether.
 When used as a Meteor package, the following units are possible for some methods:
 
     - `btc`
