@@ -16,6 +16,8 @@ var updatePrice = function(e, res){
             }});
 
         });
+    } else {
+        console.warn('Can not connect to api.kraken.com to get price ticker data, please check you internet connection');
     }
 };
 
