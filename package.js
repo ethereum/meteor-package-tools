@@ -1,7 +1,7 @@
 Package.describe({
   name: 'ethereum:tools',
   summary: 'Helper functions for dapps',
-  version: '0.2.5',
+  version: '0.2.6',
   git: 'http://github.com/ethereum/meteor-package-tools'
 });
 
