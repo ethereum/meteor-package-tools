@@ -54,7 +54,7 @@ Tinytest.add('EthTools.formatBalance', function (test) {
 
     test.equal(EthTools.formatBalance('2000000000000000000', '0,0.0[00]', 'btc'), "0.025");
     test.equal(EthTools.formatBalance('2000000000000000000', '0,0.0[00] unit', 'btc'), "0.025 btc");
-    test.equal(EthTools.formatBalance('2000000000000000000', '0,0.0[00]unit', 'btc'), "0.0246 btc");
+    test.equal(EthTools.formatBalance('2000000000000000000', '0,0.0[00]unit', 'btc'), "0.025btc");
 
     EthTools.ticker.update('btc', {$set: {
         price: '0.1'
@@ -70,7 +70,7 @@ Tinytest.add('EthTools.formatBalance', function (test) {
     test.equal(EthTools.formatBalance('1200000000000000012', '0,0.0000000000000000000', 'eur'), "3.7481279999999999042");
     test.equal(EthTools.formatBalance('2000000000000000000', '0,0.0[00]', 'eur'), "6.247");
     test.equal(EthTools.formatBalance('2000000000000000000', '0,0.0[00] UNIT', 'eur'), "6.247 EUR");
-    test.equal(EthTools.formatBalance('2000000000000000000', '0,0.0[0000]UNIT', 'eur'), "6.24688 EUR");
+    test.equal(EthTools.formatBalance('2000000000000000000', '0,0.0[0000]UNIT', 'eur'), "6.24688EUR");
 
     EthTools.ticker.update('eur', {$set: {
         price: '1.00000'

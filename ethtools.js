@@ -207,13 +207,14 @@ EthTools.formatBalance = function(number, format, unit){
         number = web3.fromWei(number, unit.toLowerCase());
     }
 
+    var isUppercase = (format.indexOf('UNIT') !== -1);
 
-    var cleanedFormat = format.replace(' unit','').replace('UNIT','').replace(/ +/,'');
+    var cleanedFormat = format.replace(/ *unit */i,'').replace(/ +/,'');
+    var format = format.replace(cleanedFormat, '__format__');
 
     if(format.toLowerCase().indexOf('unit') !== -1) {
-        if(format.indexOf('UNIT') !== -1)
-            unit = unit.toUpperCase();
-        return EthTools.formatNumber(number, cleanedFormat) +' '+ unit;
+        console.log(cleanedFormat);
+        return format.replace('__format__', EthTools.formatNumber(number, cleanedFormat)).replace(/unit/i, (isUppercase ? unit.toUpperCase() : unit));
     } else
         return EthTools.formatNumber(number, cleanedFormat);
 };

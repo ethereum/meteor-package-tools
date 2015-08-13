@@ -203,7 +203,7 @@ Formats a number of wei into any other ethereum unit and other currencies (see [
 Default is unit `ether`.
 
 The `format` property follows the [numeral.js](http://numeraljs.com) formatting.
-Additionally you can add `" unit"` or `" UNIT"` (for uppercase) to display the unit after the number.
+Additionally you can add `"unit"` or `"UNIT"` (for uppercase) to display the unit after or before the number the number.
 
 Additionally this function uses the reactive `EthTools.getUnit()` variable, when no `unit` was given.
 You can then reactivly change the unit using `EthTools.setUnit('finney')`
