@@ -213,7 +213,6 @@ EthTools.formatBalance = function(number, format, unit){
     var format = format.replace(cleanedFormat, '__format__');
 
     if(format.toLowerCase().indexOf('unit') !== -1) {
-        console.log(cleanedFormat);
         return format.replace('__format__', EthTools.formatNumber(number, cleanedFormat)).replace(/unit/i, (isUppercase ? unit.toUpperCase() : unit));
     } else
         return EthTools.formatNumber(number, cleanedFormat);
