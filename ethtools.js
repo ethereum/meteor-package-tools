@@ -160,7 +160,7 @@ EthTools.formatNumber = function(number, format){
     if(number instanceof BigNumber)
         number = number.toString(10);
 
-    format = format || '0,0.[00]';
+    format = format || '0,0.[00000000]';
 
     if(!_.isFinite(number))
         number = numeral().unformat(number);
@@ -184,6 +184,8 @@ EthTools.formatBalance = function(number, format, unit){
 
     if(!_.isFinite(number) && !(number instanceof BigNumber))
         number = 0;
+
+    format = format || '0,0.[00000000]';
     
     unit = getUnit(unit);
 
