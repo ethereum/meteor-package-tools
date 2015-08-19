@@ -11,9 +11,12 @@ var updatePrice = function(e, res){
             if(key === 'XETHXXBT')
                 name = 'btc';
 
-            EthTools.ticker.upsert(name, {$set: {
-                price: item.c[0]
-            }});
+            // make sure its a number and nothing else!
+            if(_.isFinite(item.c[0])) {
+                EthTools.ticker.upsert(name, {$set: {
+                    price: String(item.c[0])
+                }});
+            }
 
         });
     } else {
