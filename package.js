@@ -1,7 +1,7 @@
 Package.describe({
   name: 'ethereum:tools',
   summary: 'Helper functions for dapps',
-  version: '0.2.9',
+  version: '0.2.93',
   git: 'http://github.com/ethereum/meteor-package-tools'
 });
 
@@ -11,6 +11,7 @@ Package.onUse(function(api) {
   api.use('mongo', ['client', 'server']);
   api.use('http', ['client', 'server']);
 
+  api.use('spacebars', 'client');
   api.use('templating', 'client');
   api.use('tracker', 'client');
 
