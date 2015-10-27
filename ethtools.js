@@ -157,7 +157,7 @@ EthTools.formatNumber = function(number, format){
     if(format instanceof Spacebars.kw)
         format = null;
 
-    if(number instanceof BigNumber)
+    if(number instanceof BigNumber || _.isObject(number))
         number = number.toString(10);
 
     format = format || '0,0.[00000000]';
@@ -197,7 +197,7 @@ EthTools.formatBalance = function(number, format, unit){
 
         // then times the currency
         if(ticker) {
-            number = (number instanceof BigNumber)
+            number = (number instanceof BigNumber || _.isObject(number))
                 ? number.times(ticker.price)
                 : new BigNumber(String(number), 10).times(ticker.price);
 
@@ -245,7 +245,7 @@ EthTools.toWei = function(number, unit){
 
         // then times the currency
         if(ticker) {
-            number = (number instanceof BigNumber)
+            number = (number instanceof BigNumber || _.isObject(number))
                 ? number.dividedBy(ticker.price)
                 : new BigNumber(String(number), 10).dividedBy(ticker.price);
 
