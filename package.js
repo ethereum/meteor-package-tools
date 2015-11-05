@@ -1,7 +1,7 @@
 Package.describe({
   name: 'ethereum:tools',
   summary: 'Helper functions for dapps',
-  version: '0.2.95',
+  version: '0.2.96',
   git: 'http://github.com/ethereum/meteor-package-tools'
 });
 
@@ -19,7 +19,7 @@ Package.onUse(function(api) {
   api.use('3stack:bignumber@2.0.0', 'client');
 
   api.use('ethereum:web3@0.15.1', ['client', 'server']);
-  api.use('frozeman:persistent-minimongo@0.1.3', 'client');
+  api.use('frozeman:persistent-minimongo@0.1.8', 'client');
   api.use('frozeman:storage@0.1.8', 'client');
 
   api.export(['EthTools'], ['client', 'server']);
