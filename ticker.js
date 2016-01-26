@@ -4,31 +4,34 @@ if(Meteor.isClient)
     new PersistentMinimongo(EthTools.ticker);
 
 var updatePrice = function(e, res){
-    if(!e && res.statusCode === 200 && res.data && _.isEmpty(res.data.error)){
-        _.each(res.data.result, function(item, key){
-            var name = key.replace('XETHZ','').toLowerCase();
 
-            if(key === 'XETHXXBT')
-                name = 'btc';
+    if(!e && res && res.statusCode === 200) {
+        var content = JSON.parse(res.content);
 
-            // make sure its a number and nothing else!
-            if(_.isFinite(item.c[0])) {
-                EthTools.ticker.upsert(name, {$set: {
-                    price: String(item.c[0])
-                }});
-            }
+        if(content && content.Response === 'Success' && content.Data){
+            _.each(content.Data, function(item){
+                var name = item.Symbol.toLowerCase();
 
-        });
+                // make sure its a number and nothing else!
+                if(_.isFinite(item.Price)) {
+                    EthTools.ticker.upsert(name, {$set: {
+                        price: String(item.Price),
+                        timestamp: item.LastUpdateTS
+                    }});
+                }
+
+            });
+        }
     } else {
-        console.warn('Can not connect to http://api.kraken.com to get price ticker data, please check your internet connection.');
+        console.warn('Can not connect to https://www.cryptocompare.com/api to get price ticker data, please check your internet connection.');
     }
 };
 
 // update right away
-HTTP.get('https://api.kraken.com/0/public/Ticker?pair=XETHZEUR,XETHZUSD,XETHZGBP,XETHZJPY,XETHZCAD,XETHXXBT', updatePrice);
+HTTP.get(' https://www.cryptocompare.com/api/data/price?fsym=ETH&tsyms=BTC,USD,EUR', updatePrice);
     
 
 // update prices
 Meteor.setInterval(function(){
-    HTTP.get('https://api.kraken.com/0/public/Ticker?pair=XETHZEUR,XETHZUSD,XETHZGBP,XETHZJPY,XETHZCAD,XETHXXBT', updatePrice);    
+    HTTP.get(' https://www.cryptocompare.com/api/data/price?fsym=ETH&tsyms=BTC,USD,EUR', updatePrice);    
 }, 1000 * 30);
