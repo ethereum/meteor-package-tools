@@ -46,9 +46,6 @@ Check for supported currencies
 var supportedCurrencies = function(unit){
     return (unit === 'usd' ||
            unit === 'eur' ||
-           unit === 'cad' ||
-           unit === 'gbp' ||
-           unit === 'jpy' ||
            unit === 'btc');
 };
 
