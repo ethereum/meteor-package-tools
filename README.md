@@ -165,12 +165,12 @@ Tracker.autorun(function(){
 
     EthTools.formatNumber(number, format)
 
-Fomats any number using [numeral.js](http://numeraljs.com).
+Formats any number using [numeral.js](http://numeraljs.com), e.g. `"0,0.00[0000]"`.
 
 **Parameters**
 
 - `number` (`String|Number`) - the number to format
-- `format` (`String`) - the format see [numeral.js](http://numeraljs.com) for examples
+- `format` (`String`) - the format see [numeral.js](http://numeraljs.com) for examples, e.g. `"0,0.00[0000]"`
 
 **Returns**
 
@@ -202,7 +202,7 @@ Formats a number of wei into any other ethereum unit and other currencies (see [
 
 Default is unit `ether`.
 
-The `format` property follows the [numeral.js](http://numeraljs.com) formatting.
+The `format` property follows the [numeral.js](http://numeraljs.com) formatting, e.g. `"0,0.00[0000]"`.
 Additionally you can add `"unit"` or `"UNIT"` (for uppercase) to display the unit after or before the number the number.
 
 Additionally this function uses the reactive `EthTools.getUnit()` variable, when no `unit` was given.
@@ -211,7 +211,7 @@ You can then reactivly change the unit using `EthTools.setUnit('finney')`
 **Parameters**
 
 - `wei` (`String|Number`) - the amount of wei to convert and format
-- `format` (`String`) - the format see [numeral.js](http://numeraljs.com) for examples
+- `format` (`String`) - the format see [numeral.js](http://numeraljs.com) for examples, e.g. `"0,0.00[0000]"`.
 - `unit` (`String`) - (optional) the unit to convert the given wei amount to, if not given it will use `EthTools.getUnit()`
 
 **Returns**
