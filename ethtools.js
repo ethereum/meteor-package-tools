@@ -223,6 +223,9 @@ EthTools.formatBalance = function(number, format, unit){
     if(!_.isFinite(number) && !(number instanceof BigNumber))
         number = 0;
 
+    if(format instanceof Spacebars.kw)
+        format = null;
+
     format = format || '0,0.[00000000]';
     
     unit = getUnit(unit);
