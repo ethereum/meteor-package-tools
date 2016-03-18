@@ -33,5 +33,5 @@ HTTP.get('https://www.cryptocompare.com/api/data/price?fsym=ETH&tsyms=BTC,USD,EU
 
 // update prices
 Meteor.setInterval(function(){
-    HTTP.get(' https://www.cryptocompare.com/api/data/price?fsym=ETH&tsyms=BTC,USD,EUR', updatePrice);    
+    HTTP.get('https://www.cryptocompare.com/api/data/price?fsym=ETH&tsyms=BTC,USD,EUR', updatePrice);    
 }, 1000 * 30);
