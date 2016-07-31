@@ -1,7 +1,7 @@
 // Price ticker
-EthTools.ticker = new Mongo.Collection('ethereum_price_ticker', {connection: null});
+EtcTools.ticker = new Mongo.Collection('ethereum_price_ticker', {connection: null});
 if(Meteor.isClient)
-    new PersistentMinimongo(EthTools.ticker);
+    new PersistentMinimongo(EtcTools.ticker);
 
 var updatePrice = function(e, res){
 
@@ -14,7 +14,7 @@ var updatePrice = function(e, res){
 
                 // make sure its a number and nothing else!
                 if(_.isFinite(price)) {
-                    EthTools.ticker.upsert(name, {$set: {
+                    EtcTools.ticker.upsert(name, {$set: {
                         price: String(price),
                         timestamp: null
                     }});
@@ -28,10 +28,10 @@ var updatePrice = function(e, res){
 };
 
 // update right away
-HTTP.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR', updatePrice);
+HTTP.get('https://min-api.cryptocompare.com/data/price?fsym=ETC&tsyms=BTC,USD,EUR', updatePrice);
     
 
 // update prices
 Meteor.setInterval(function(){
-    HTTP.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR', updatePrice);    
+    HTTP.get('https://min-api.cryptocompare.com/data/price?fsym=ETC&tsyms=BTC,USD,EUR', updatePrice);
 }, 1000 * 30);

@@ -8,16 +8,16 @@ See here for a [demo of the template helpers](http://localhost:4000/#tools).
 
 You can either add it as a Meteor package using:
 
-    $ Meteor add ethereum:tools
+    $ Meteor add ethereumclassic:tools
 
-or add link to the `ethtools.js` in your HTML.
+or add link to the `etctools.js` in your HTML.
 
 
 ## Usage
 
 This package provides formating and converting functionality.
 
-When using this package as a Meteor package it will call the [kraken.com public API](https://api.kraken.com/0/public/Ticker?pair=XETHZEUR,XXBTZUSD) every 30s to retrive price information for ether.
+When using this package as a Meteor package it will call the [CryptoCompare public API](https://min-api.cryptocompare.com/data/price?fsym=ETC&tsyms=BTC,USD,EUR) every 30s to retrive price information for ether.
 When used as a Meteor package, the following units are possible for some methods:
 
     - `btc`
@@ -32,14 +32,14 @@ When used as a Meteor package, the following units are possible for some methods
 
 ***
 
-### EthTools.ticker
+### EtcTools.ticker
 
-    EthTools.ticker.findOne(unit)
+    EtcTools.ticker.findOne(unit)
 
 **Note** This is only available when used as a Meteor package.
 
-It gives you the latest price for ether based on the [kraken.com public API](https://api.kraken.com/0/public/Ticker?pair=XETHZEUR,XXBTZUSD).
-`EthTools.ticker` is a reactive collection, so when used in a reactive function it will re-run this function when the price is updated.
+It gives you the latest price for ether based on the [CryptoCompare public API](https://min-api.cryptocompare.com/data/price?fsym=ETC&tsyms=BTC,USD,EUR).
+`EtcTools.ticker` is a reactive collection, so when used in a reactive function it will re-run this function when the price is updated.
 
 The ticker will be updated every 30 seconds.
 
@@ -62,7 +62,7 @@ Its a normal Meteor collection
 
 **Example**
 ```js
-var usd = EthTools.ticker.findOne('usd')
+var usd = EtcTools.ticker.findOne('usd')
 
 if(usd)
     console.log(usd.price) // "2.0000"
@@ -70,12 +70,12 @@ if(usd)
 
 ***
 
-### EthTools.setLocale
+### EtcTools.setLocale
 
-    EthTools.setLocale(locale)
+    EtcTools.setLocale(locale)
 
 Set the locale to display numbers differently in other countries.
-This functions lets `EthTools.formatBalance()` and `EthTools.formatNumber()` reactivly re-run, to show the new format.
+This functions lets `EtcTools.formatBalance()` and `EtcTools.formatNumber()` reactivly re-run, to show the new format.
 
 **Parameters**
 
@@ -88,20 +88,20 @@ This functions lets `EthTools.formatBalance()` and `EthTools.formatNumber()` rea
 **Example**
 
 ```js
-EthTools.setLocale('de');
-EthTools.formatNumber(2000, '0,0.00');
+EtcTools.setLocale('de');
+EtcTools.formatNumber(2000, '0,0.00');
 // 2 000,00
 ```
 
 ***
 
-### EthTools.setUnit
+### EtcTools.setUnit
 
-    EthTools.setUnit(unit)
+    EtcTools.setUnit(unit)
 
 **Note** This is only available when used as a Meteor package.
 
-Reactivly sets a unit used as default unit, when no unit is passed to other EthTools methods.
+Reactivly sets a unit used as default unit, when no unit is passed to other EtcTools methods.
 And also persists it in localstorage so its the same when you reload you app.
 
 Default is unit `ether`.
@@ -117,23 +117,23 @@ Default is unit `ether`.
 **Example**
 
 ```js
-EthTools.setUnit('btc');
+EtcTools.setUnit('btc');
 
 Tracker.autorun(function(){
-    var amount = EthTools.formatBalance('23000000000000000000', '0,0.0[00] unit');
+    var amount = EtcTools.formatBalance('23000000000000000000', '0,0.0[00] unit');
     // amount = "0.287 btc"
 });
 ```
 
 ***
 
-### EthTools.getUnit
+### EtcTools.getUnit
 
-    EthTools.getUnit()
+    EtcTools.getUnit()
 
 **Note** This is only available when used as a Meteor package.
 
-Reactivly gets the current set default unit, used byt other EthTools methods when no unit was passed.
+Reactivly gets the current set default unit, used byt other EtcTools methods when no unit was passed.
 And also persists it in localstorage so its the same when you reload you app.
 
 Default is unit `ether`.
@@ -150,10 +150,10 @@ none
 **Example**
 
 ```js
-EthTools.setUnit('btc');
+EtcTools.setUnit('btc');
 
 Tracker.autorun(function(){
-    var unit = EthTools.getUnit();
+    var unit = EtcTools.getUnit();
     // unit === 'btc'
 });
 
@@ -161,9 +161,9 @@ Tracker.autorun(function(){
 
 ***
 
-### EthTools.formatNumber
+### EtcTools.formatNumber
 
-    EthTools.formatNumber(number, format)
+    EtcTools.formatNumber(number, format)
 
 Formats any number using [numeral.js](http://numeraljs.com), e.g. `"0,0.00[0000]"`.
 
@@ -179,7 +179,7 @@ Formats any number using [numeral.js](http://numeraljs.com), e.g. `"0,0.00[0000]
 **Example**
 
 ```js
-var finney = EthTools.formatNumber(2000, '0,0.00');
+var finney = EtcTools.formatNumber(2000, '0,0.00');
 // finney = '2,000.00'
 ```
 ***
@@ -194,9 +194,9 @@ var finney = EthTools.formatNumber(2000, '0,0.00');
 
 ***
 
-### EthTools.formatBalance
+### EtcTools.formatBalance
 
-    EthTools.formatBalance(wei, format, unit)
+    EtcTools.formatBalance(wei, format, unit)
 
 Formats a number of wei into any other ethereum unit and other currencies (see [Usage](#usage)).
 
@@ -205,14 +205,14 @@ Default is unit `ether`.
 The `format` property follows the [numeral.js](http://numeraljs.com) formatting, e.g. `"0,0.00[0000]"`.
 Additionally you can add `"unit"` or `"UNIT"` (for uppercase) to display the unit after or before the number the number.
 
-Additionally this function uses the reactive `EthTools.getUnit()` variable, when no `unit` was given.
-You can then reactivly change the unit using `EthTools.setUnit('finney')`
+Additionally this function uses the reactive `EtcTools.getUnit()` variable, when no `unit` was given.
+You can then reactivly change the unit using `EtcTools.setUnit('finney')`
 
 **Parameters**
 
 - `wei` (`String|Number`) - the amount of wei to convert and format
 - `format` (`String`) - the format see [numeral.js](http://numeraljs.com) for examples, e.g. `"0,0.00[0000]"`.
-- `unit` (`String`) - (optional) the unit to convert the given wei amount to, if not given it will use `EthTools.getUnit()`
+- `unit` (`String`) - (optional) the unit to convert the given wei amount to, if not given it will use `EtcTools.getUnit()`
 
 **Returns**
 
@@ -221,7 +221,7 @@ You can then reactivly change the unit using `EthTools.setUnit('finney')`
 **Example**
 
 ```js
-var amount = EthTools.formatBalance(112345676543212345, '0,0.0[00] unit', 'finney');
+var amount = EtcTools.formatBalance(112345676543212345, '0,0.0[00] unit', 'finney');
 // amount = "112.346 finney"
 ```
 
@@ -229,7 +229,7 @@ var amount = EthTools.formatBalance(112345676543212345, '0,0.0[00] unit', 'finne
 
 #### Format balances template helper
 
-![format balances](https://raw.githubusercontent.com/ethereum/meteor-package-elements/master/screenshots/formatBalance.png)
+![format balances](https://raw.githubusercontent.com/ethereumclassic/meteor-package-elements/master/screenshots/formatBalance.png)
 
 **Usage**
 
@@ -237,26 +237,26 @@ var amount = EthTools.formatBalance(112345676543212345, '0,0.0[00] unit', 'finne
 {{dapp_formatBalance "1000000133" "0,0.00[0000]" "ether"}}
 ```
 
-If you leave the last value it will use `EthTools.getUnit()`, as reactive localstorage variable.
+If you leave the last value it will use `EtcTools.getUnit()`, as reactive localstorage variable.
 
 ```html
 {{dapp_formatBalance "1000000133" "0,0.00"}}
 ```
 
-Use then `EthTools.setUnit(finney')` to change the unit and displayed balances.
+Use then `EtcTools.setUnit(finney')` to change the unit and displayed balances.
 
 ***
 
-### EthTools.toWei
+### EtcTools.toWei
 
-    EthTools.toWei(number, unit)
+    EtcTools.toWei(number, unit)
 
 Formats an amount of any supported unit (see [Usage](#usage)) into wei.
 
 Default is unit `ether`.
 
-Additionally this function uses the reactive `EthTools.getUnit()` variable, when no `unit` was given.
-You can then reactivly change the unit using `EthTools.setUnit('finney')`
+Additionally this function uses the reactive `EtcTools.getUnit()` variable, when no `unit` was given.
+You can then reactivly change the unit using `EtcTools.setUnit('finney')`
 
 **Parameters**
 
@@ -270,6 +270,6 @@ You can then reactivly change the unit using `EthTools.setUnit('finney')`
 **Example**
 
 ```js
-var wei = EthTools.toWei(23, 'btc');
+var wei = EtcTools.toWei(23, 'btc');
 // wei = "80000000000000000000"
 ```
