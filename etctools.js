@@ -8,7 +8,7 @@ Template Controllers
 /**
 Helper functions for ethereum dapps
 
-@class [packages] ethereum:tools
+@class [packages] ethereum-classic:tools
 @constructor
 */
 
@@ -74,26 +74,26 @@ var getUnit = function(unit){
 /**
 Helper functions for ethereum dapps
 
-@class EthTools
+@class EtcTools
 @constructor
 */
 
-EthTools = {
+EtcTools = {
     lang: 'en'
 };
 
 if(isMeteorPackage) {
 
     /**
-    Sets the default unit used by all EthTools functions, if no unit is provided.
+    Sets the default unit used by all EtcTools functions, if no unit is provided.
 
-        EthTools.setUnit('ether')
+        EtcTools.setUnit('ether')
 
     @method setUnit
     @param {String} unit the unit like 'ether', or 'eur'
     @param {Boolean}
     **/
-    EthTools.setUnit = function(unit){
+    EtcTools.setUnit = function(unit){
         if(supportedCurrencies(unit)) {
             LocalStore.set('dapp_etherUnit', unit);
             return true;
@@ -109,14 +109,14 @@ if(isMeteorPackage) {
     };
 
     /**
-    Get the default unit used by all EthTools functions, if no unit is provided.
+    Get the default unit used by all EtcTools functions, if no unit is provided.
 
-        EthTools.getUnit()
+        EtcTools.getUnit()
 
     @method getUnit
     @return {String} unit the unit like 'ether', or 'eur'
     **/
-    EthTools.getUnit = function(){
+    EtcTools.getUnit = function(){
         return LocalStore.get('dapp_etherUnit');
     };
 }
@@ -124,15 +124,15 @@ if(isMeteorPackage) {
 /**
 Sets the locale to display numbers in different formats.
 
-    EthTools.setLocale('de')
+    EtcTools.setLocale('de')
 
 @method language
 @param {String} lang the locale like "de" or "de-DE"
 **/
-EthTools.setLocale = function(lang){
+EtcTools.setLocale = function(lang){
     var lang = lang.substr(0,2).toLowerCase();
     // numeral.language(lang);
-    EthTools.lang = lang;
+    EtcTools.lang = lang;
 
     dependency.changed();
 
@@ -142,14 +142,14 @@ EthTools.setLocale = function(lang){
 /**
 Formats a given number
 
-    EthTools.formatNumber(10000, "0.0[000]")
+    EtcTools.formatNumber(10000, "0.0[000]")
 
 @method formatNumber
 @param {Number|String|BigNumber} number the number to format
 @param {String} format           the format string e.g. "0,0.0[000]" see http://numeraljs.com for more.
 @return {String} The formated time
 **/
-EthTools.formatNumber = function(number, format){
+EtcTools.formatNumber = function(number, format){
     var length = optionalLength = 0;
     dependency.depend();
 
@@ -164,7 +164,7 @@ EthTools.formatNumber = function(number, format){
     if(_.isFinite(number) && !_.isObject(number))
         number = new BigNumber(number);
 
-    options = (EthTools.lang === 'en')
+    options = (EtcTools.lang === 'en')
         ?   { decimalSeparator: '.',
               groupSeparator: ',',
               groupSize: 3
@@ -210,14 +210,14 @@ EthTools.formatNumber = function(number, format){
 /**
 Formats a number of wei to a balance.
 
-    EthTools.formatBalance(myNumber, "0,0.0[0000] unit")
+    EtcTools.formatBalance(myNumber, "0,0.0[0000] unit")
 
 @method (formatBalance)
 @param {String} number
 @param {String} format       the format string
 @return {String} The formatted number
 **/
-EthTools.formatBalance = function(number, format, unit){
+EtcTools.formatBalance = function(number, format, unit){
     dependency.depend();
 
     if(!_.isFinite(number) && !(number instanceof BigNumber))
@@ -230,8 +230,8 @@ EthTools.formatBalance = function(number, format, unit){
     
     unit = getUnit(unit);
 
-    if(typeof EthTools.ticker !== 'undefined' && supportedCurrencies(unit)) {
-        var ticker = EthTools.ticker.findOne(unit, {fields: {price: 1}});
+    if(typeof EtcTools.ticker !== 'undefined' && supportedCurrencies(unit)) {
+        var ticker = EtcTools.ticker.findOne(unit, {fields: {price: 1}});
 
         // convert first to ether
         number = web3.fromWei(number, 'ether');
@@ -256,30 +256,30 @@ EthTools.formatBalance = function(number, format, unit){
     var format = format.replace(cleanedFormat, '__format__');
 
     if(format.toLowerCase().indexOf('unit') !== -1) {
-        return format.replace('__format__', EthTools.formatNumber(number, cleanedFormat)).replace(/unit/i, (isUppercase ? unit.toUpperCase() : unit));
+        return format.replace('__format__', EtcTools.formatNumber(number, cleanedFormat)).replace(/unit/i, (isUppercase ? unit.toUpperCase() : unit));
     } else
-        return EthTools.formatNumber(number, cleanedFormat);
+        return EtcTools.formatNumber(number, cleanedFormat);
 };
 
 
 /**
 Formats any of the supported currency to ethereum wei.
 
-    EthTools.toWei(myNumber, unit)
+    EtcTools.toWei(myNumber, unit)
 
 @method (toWei)
 @param {String} number
 @return {String} unit
 **/
-EthTools.toWei = function(number, unit){
+EtcTools.toWei = function(number, unit){
 
     if(!_.isFinite(number) && !(number instanceof BigNumber))
         return number;
 
     unit = getUnit(unit);
 
-    if(typeof EthTools.ticker !== 'undefined' && supportedCurrencies(unit)) {
-        var ticker = EthTools.ticker.findOne(unit, {fields: {price: 1}});
+    if(typeof EtcTools.ticker !== 'undefined' && supportedCurrencies(unit)) {
+        var ticker = EtcTools.ticker.findOne(unit, {fields: {price: 1}});
 
         // convert first to ether
         number = web3.toWei(number, 'ether');

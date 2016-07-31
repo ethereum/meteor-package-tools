@@ -1,8 +1,8 @@
 Package.describe({
-  name: 'ethereum:tools',
+  name: 'ethereumclassic:tools',
   summary: 'Helper functions for dapps',
   version: '0.5.2',
-  git: 'http://github.com/ethereum/meteor-package-tools'
+  git: 'http://github.com/ethereumclassic/meteor-package-tools'
 });
 
 Package.onUse(function(api) {
@@ -22,10 +22,10 @@ Package.onUse(function(api) {
   api.use('frozeman:persistent-minimongo@0.1.8', 'client');
   api.use('frozeman:storage@0.1.8', 'client');
 
-  api.export(['EthTools'], ['client', 'server']);
+  api.export(['EtcTools'], ['client', 'server']);
 
 
-  api.addFiles('ethtools.js', ['client', 'server']);
+  api.addFiles('etctools.js', ['client', 'server']);
   api.addFiles('ticker.js', ['client', 'server']);
 
   api.addFiles('globalHelpers.js', 'client');
@@ -33,7 +33,7 @@ Package.onUse(function(api) {
 
 Package.onTest(function(api) {
   api.use('tinytest');
-  api.use('ethereum:tools');
-  api.addFiles('ethtools-tests.js', ['client', 'server']);
+  api.use('ethereumclassic:tools');
+  api.addFiles('etctools-tests.js', ['client', 'server']);
 });
 
