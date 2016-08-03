@@ -17,7 +17,7 @@ or add link to the `ethtools.js` in your HTML.
 
 This package provides formating and converting functionality.
 
-When using this package as a Meteor package it will call the [kraken.com public API](https://api.kraken.com/0/public/Ticker?pair=XETHZEUR,XXBTZUSD) every 30s to retrive price information for ether.
+When using the `EthTools.ticker` it will call the [cryptocompare.com public API](https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR) every 30s to retrive price information for ether.
 When used as a Meteor package, the following units are possible for some methods:
 
     - `btc`
@@ -34,9 +34,12 @@ When used as a Meteor package, the following units are possible for some methods
 
 ### EthTools.ticker
 
+    EthTools.ticker.start();
     EthTools.ticker.findOne(unit)
 
 **Note** This is only available when used as a Meteor package.
+
+To start polling for ticker prices run `EthTools.ticker.start()`
 
 It gives you the latest price for ether based on the [kraken.com public API](https://api.kraken.com/0/public/Ticker?pair=XETHZEUR,XXBTZUSD).
 `EthTools.ticker` is a reactive collection, so when used in a reactive function it will re-run this function when the price is updated.
@@ -47,6 +50,7 @@ The ticker will be updated every 30 seconds.
 
 Its a normal Meteor collection
 
+- `start(options)` - starts the polling for the ticker, the options object can be an object with `{extraParams: 'mydata'}` to be added to the ticker polling call
 - `findOne(unit)` - returns an object with the price of the unit
 - `find().fetch()` - returns all available price ticker units
 
