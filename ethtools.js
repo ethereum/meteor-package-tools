@@ -46,7 +46,9 @@ Check for supported currencies
 var supportedCurrencies = function(unit){
     return (unit === 'usd' ||
            unit === 'eur' ||
-           unit === 'btc');
+           unit === 'btc' ||
+           unit === 'gbp' ||
+           unit === 'brl');
 };
 
 /**
@@ -62,7 +64,7 @@ var getUnit = function(unit){
 
         if(!unit) {
             unit = 'ether';
-            LocalStore.set('dapp_etherUnit', unit);        
+            LocalStore.set('dapp_etherUnit', unit);
         }
     }
 
@@ -196,11 +198,11 @@ EthTools.formatNumber = function(number, format){
         var afterDecimal = number.replace(beforeDecimal, '').substr(0, length);
         var afterDecimalOptional = number.replace(beforeDecimal, '').substr(length, optionalLength).replace(/0*$/,'');
         beforeDecimal = beforeDecimal.replace(options.decimalSeparator, '');
-        
+
         return (!afterDecimal && !afterDecimalOptional)
             ? beforeDecimal
             : beforeDecimal + options.decimalSeparator + afterDecimal + afterDecimalOptional;
-    
+
     // otherwise simply return the formated number
     } else {
         return number;
@@ -227,7 +229,7 @@ EthTools.formatBalance = function(number, format, unit){
         format = null;
 
     format = format || '0,0.[00000000]';
-    
+
     unit = getUnit(unit);
 
     if(typeof EthTools.ticker !== 'undefined' && supportedCurrencies(unit)) {

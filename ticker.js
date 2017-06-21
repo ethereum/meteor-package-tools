@@ -4,12 +4,14 @@ if(Meteor.isClient)
     new PersistentMinimongo(EthTools.ticker);
 
 EthTools.ticker.start = function(options){
-    var url = 'https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR';
-
     options = options || {};
-
-    if(options.extraParams)
+    if (!options.currencies){
+        options.currencies = ['BTC', 'USD', 'EUR'];
+    }
+    var url = 'https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=' + options.currencies.join(',');
+    if (options.extraParams) {
         url += '&extraParams='+ options.extraParams;
+    }
 
     var updatePrice = function(e, res){
 
@@ -37,10 +39,9 @@ EthTools.ticker.start = function(options){
 
     // update right away
     HTTP.get(url, updatePrice);
-        
+
     // update prices
     Meteor.setInterval(function(){
-        HTTP.get(url, updatePrice);    
+        HTTP.get(url, updatePrice);
     }, 1000 * 30);
 }
-
