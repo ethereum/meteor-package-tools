@@ -6,11 +6,7 @@ See here for a [demo of the template helpers](http://localhost:4000/#tools).
 
 ## Installation
 
-You can either add it as a Meteor package using:
-
-    $ Meteor add ethereum:tools
-
-or add link to the `ethtools.js` in your HTML.
+    $ npm install --save ethtools
 
 
 ## Usage
