@@ -1,0 +1,20 @@
+{
+  "presets": [
+    "es2015",
+    "stage-0"
+  ],
+  "plugins": [
+    "add-module-exports",
+    [
+      "transform-runtime",
+      {
+        "polyfill": false,
+      }
+    ]
+  ],
+  "env": {
+    "test": {
+      "plugins": ["istanbul"]
+    }
+  }
+}
