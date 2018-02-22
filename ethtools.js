@@ -101,7 +101,7 @@ if(isMeteorPackage) {
             return true;
         } else {
             try {
-                web3.toWei(1, unit);
+                web3.utils.toWei(1, unit);
                 LocalStore.set('dapp_etherUnit', unit);
                 return true;
             } catch(e) {
@@ -236,7 +236,7 @@ EthTools.formatBalance = function(number, format, unit){
         var ticker = EthTools.ticker.findOne(unit, {fields: {price: 1}});
 
         // convert first to ether
-        number = web3.fromWei(number, 'ether');
+        number = web3.utils.fromWei(number.toString(), 'ether');
 
         // then times the currency
         if(ticker) {
@@ -249,7 +249,7 @@ EthTools.formatBalance = function(number, format, unit){
         }
 
     } else {
-        number = web3.fromWei(number, unit.toLowerCase());
+        number = web3.utils.fromWei(number.toString(), unit.toLowerCase());
     }
 
     var isUppercase = (format.indexOf('UNIT') !== -1);
@@ -284,7 +284,7 @@ EthTools.toWei = function(number, unit){
         var ticker = EthTools.ticker.findOne(unit, {fields: {price: 1}});
 
         // convert first to ether
-        number = web3.toWei(number, 'ether');
+        number = web3.utils.toWei(number.toString(), 'ether');
 
         // then times the currency
         if(ticker) {
@@ -299,7 +299,7 @@ EthTools.toWei = function(number, unit){
         }
 
     } else {
-        number = web3.toWei(number, unit.toLowerCase());
+        number = web3.utils.toWei(number, unit.toLowerCase());
 
     }
 
