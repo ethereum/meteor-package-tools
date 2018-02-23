@@ -235,8 +235,9 @@ EthTools.formatBalance = function(number, format, unit){
     if(typeof EthTools.ticker !== 'undefined' && supportedCurrencies(unit)) {
         var ticker = EthTools.ticker.findOne(unit, {fields: {price: 1}});
 
-        // convert first to ether
-        number = web3.utils.fromWei(number.toString(), 'ether');
+        // convert first to ether.
+        // use toFixed in web3.utils.fromWei since cannot accept BigNumber (accepts string|number|BN)
+        number = web3.utils.fromWei(number.toFixed(), 'ether');
 
         // then times the currency
         if(ticker) {
@@ -249,7 +250,8 @@ EthTools.formatBalance = function(number, format, unit){
         }
 
     } else {
-        number = web3.utils.fromWei(number.toString(), unit.toLowerCase());
+        // use toFixed in web3.utils.fromWei since cannot accept BigNumber (accepts string|number|BN)
+        number = web3.utils.fromWei(number.toFixed(), unit.toLowerCase());
     }
 
     var isUppercase = (format.indexOf('UNIT') !== -1);
@@ -283,8 +285,9 @@ EthTools.toWei = function(number, unit){
     if(typeof EthTools.ticker !== 'undefined' && supportedCurrencies(unit)) {
         var ticker = EthTools.ticker.findOne(unit, {fields: {price: 1}});
 
-        // convert first to ether
-        number = web3.utils.toWei(number.toString(), 'ether');
+        // convert first to ether.
+        // use toFixed in web3.utils.toWei since cannot accept BigNumber (accepts string|number|BN)
+        number = web3.utils.toWei(number.toFixed(), 'ether');
 
         // then times the currency
         if(ticker) {
