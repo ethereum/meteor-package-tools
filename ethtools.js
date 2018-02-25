@@ -235,9 +235,8 @@ EthTools.formatBalance = function(number, format, unit){
     if(typeof EthTools.ticker !== 'undefined' && supportedCurrencies(unit)) {
         var ticker = EthTools.ticker.findOne(unit, {fields: {price: 1}});
 
-        // convert first to ether.
-        // use toFixed in web3.utils.fromWei since cannot accept BigNumber (accepts string|number|BN)
-        number = web3.utils.fromWei(number.toFixed(), 'ether');
+        // convert first to ether
+        number = web3.utils.fromWei(number instanceof BigNumber || typeof number === 'number' ? web3.utils.toBN(number) : number, 'ether');
 
         // then times the currency
         if(ticker) {
@@ -250,8 +249,7 @@ EthTools.formatBalance = function(number, format, unit){
         }
 
     } else {
-        // use toFixed in web3.utils.fromWei since cannot accept BigNumber (accepts string|number|BN)
-        number = web3.utils.fromWei(number.toFixed(), unit.toLowerCase());
+        number = web3.utils.fromWei(number instanceof BigNumber || typeof number === 'number' ? web3.utils.toBN(number) : number, unit.toLowerCase());
     }
 
     var isUppercase = (format.indexOf('UNIT') !== -1);
@@ -285,9 +283,8 @@ EthTools.toWei = function(number, unit){
     if(typeof EthTools.ticker !== 'undefined' && supportedCurrencies(unit)) {
         var ticker = EthTools.ticker.findOne(unit, {fields: {price: 1}});
 
-        // convert first to ether.
-        // use toFixed in web3.utils.toWei since cannot accept BigNumber (accepts string|number|BN)
-        number = web3.utils.toWei(number.toFixed(), 'ether');
+        // convert first to ether
+        number = web3.utils.toWei(number instanceof BigNumber || typeof number === 'number' ? web3.utils.toBN(number) : number, 'ether');
 
         // then times the currency
         if(ticker) {
@@ -302,8 +299,7 @@ EthTools.toWei = function(number, unit){
         }
 
     } else {
-        number = web3.utils.toWei(number, unit.toLowerCase());
-
+        number = web3.utils.toWei(number instanceof BigNumber || typeof number === 'number' ? web3.utils.toBN(number) : number, unit.toLowerCase());
     }
 
     return number;
