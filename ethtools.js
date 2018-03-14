@@ -99,7 +99,7 @@ if (isMeteorPackage) {
       return true;
     } else {
       try {
-        web3.utils.toWei(1, unit);
+        web3.utils.toWei('1', unit);
         LocalStore.set("dapp_etherUnit", unit);
         return true;
       } catch (e) {
