@@ -21,8 +21,7 @@ ecmascript-runtime@0.4.1
 ecmascript-runtime-client@0.4.2
 ecmascript-runtime-server@0.4.1
 ejson@1.0.13
-ethereum:tools@0.7.0
-ethereum:web3@0.15.3
+ethereum:web3@1.0.0-beta.31
 frozeman:persistent-minimongo@0.1.8
 frozeman:storage@0.1.9
 geojson-utils@1.0.10
@@ -31,7 +30,6 @@ htmljs@1.0.11
 http@1.2.12
 id-map@1.0.9
 jquery@1.11.10
-local-test:ethereum:tools@0.7.0
 localstorage@1.1.0
 logging@1.1.17
 meteor@1.6.1

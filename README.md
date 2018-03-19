@@ -12,7 +12,6 @@ You can either add it as a Meteor package using:
 
 or add link to the `ethtools.js` in your HTML.
 
-
 ## Usage
 
 This package provides formating and converting functionality.
@@ -30,7 +29,7 @@ When used as a Meteor package, the following units are possible for some methods
 
 **Note** As non-meteor package you can only use the ether units.
 
-***
+---
 
 ### EthTools.ticker
 
@@ -50,13 +49,14 @@ The ticker will be updated every 30 seconds.
 
 Its a normal Meteor collection
 
-- `start(options)` - starts the polling for the ticker, the options object can be an object with `{extraParams: 'mydata'}` to be added to the ticker polling call
-- `findOne(unit)` - returns an object with the price of the unit
-- `find().fetch()` - returns all available price ticker units
+* `start(options)` - starts the polling for the ticker, the options object can be an object with `{extraParams: 'mydata'}` to be added to the ticker polling call
+* `findOne(unit)` - returns an object with the price of the unit
+* `find().fetch()` - returns all available price ticker units
 
 **Returns**
 
-- `Object`
+* `Object`
+
 ```js
 {
     _id: 'btc',
@@ -65,14 +65,14 @@ Its a normal Meteor collection
 ```
 
 **Example**
-```js
-var usd = EthTools.ticker.findOne('usd')
 
-if(usd)
-    console.log(usd.price) // "2.0000"
+```js
+var usd = EthTools.ticker.findOne("usd");
+
+if (usd) console.log(usd.price); // "2.0000"
 ```
 
-***
+---
 
 ### EthTools.setLocale
 
@@ -83,7 +83,7 @@ This functions lets `EthTools.formatBalance()` and `EthTools.formatNumber()` rea
 
 **Parameters**
 
-- `locale` (`String`) - the locale to set
+* `locale` (`String`) - the locale to set
 
 **Returns**
 
@@ -92,12 +92,12 @@ This functions lets `EthTools.formatBalance()` and `EthTools.formatNumber()` rea
 **Example**
 
 ```js
-EthTools.setLocale('de');
-EthTools.formatNumber(2000, '0,0.00');
+EthTools.setLocale("de");
+EthTools.formatNumber(2000, "0,0.00");
 // 2 000,00
 ```
 
-***
+---
 
 ### EthTools.setUnit
 
@@ -112,7 +112,7 @@ Default is unit `ether`.
 
 **Parameters**
 
-- `unit` (`String`) - the unit to set, see [Usage](#usage) for more
+* `unit` (`String`) - the unit to set, see [Usage](#usage) for more
 
 **Returns**
 
@@ -121,15 +121,15 @@ Default is unit `ether`.
 **Example**
 
 ```js
-EthTools.setUnit('btc');
+EthTools.setUnit("btc");
 
-Tracker.autorun(function(){
-    var amount = EthTools.formatBalance('23000000000000000000', '0,0.0[00] unit');
-    // amount = "0.287 btc"
+Tracker.autorun(function() {
+  var amount = EthTools.formatBalance("23000000000000000000", "0,0.0[00] unit");
+  // amount = "0.287 btc"
 });
 ```
 
-***
+---
 
 ### EthTools.getUnit
 
@@ -142,7 +142,6 @@ And also persists it in localstorage so its the same when you reload you app.
 
 Default is unit `ether`.
 
-
 **Parameters**
 
 none
@@ -154,16 +153,15 @@ none
 **Example**
 
 ```js
-EthTools.setUnit('btc');
+EthTools.setUnit("btc");
 
-Tracker.autorun(function(){
-    var unit = EthTools.getUnit();
-    // unit === 'btc'
+Tracker.autorun(function() {
+  var unit = EthTools.getUnit();
+  // unit === 'btc'
 });
-
 ```
 
-***
+---
 
 ### EthTools.formatNumber
 
@@ -173,8 +171,8 @@ Formats any number using [numeral.js](http://numeraljs.com), e.g. `"0,0.00[0000]
 
 **Parameters**
 
-- `number` (`String|Number`) - the number to format
-- `format` (`String`) - the format see [numeral.js](http://numeraljs.com) for examples, e.g. `"0,0.00[0000]"`
+* `number` (`String|Number`) - the number to format
+* `format` (`String`) - the format see [numeral.js](http://numeraljs.com) for examples, e.g. `"0,0.00[0000]"`
 
 **Returns**
 
@@ -183,10 +181,11 @@ Formats any number using [numeral.js](http://numeraljs.com), e.g. `"0,0.00[0000]
 **Example**
 
 ```js
-var finney = EthTools.formatNumber(2000, '0,0.00');
+var finney = EthTools.formatNumber(2000, "0,0.00");
 // finney = '2,000.00'
 ```
-***
+
+---
 
 #### Format number template helper
 
@@ -196,7 +195,7 @@ var finney = EthTools.formatNumber(2000, '0,0.00');
 {{dapp_formatNumber "1000000133" "0,0.00[0000]"}}
 ```
 
-***
+---
 
 ### EthTools.formatBalance
 
@@ -214,9 +213,9 @@ You can then reactivly change the unit using `EthTools.setUnit('finney')`
 
 **Parameters**
 
-- `wei` (`String|Number`) - the amount of wei to convert and format
-- `format` (`String`) - the format see [numeral.js](http://numeraljs.com) for examples, e.g. `"0,0.00[0000]"`.
-- `unit` (`String`) - (optional) the unit to convert the given wei amount to, if not given it will use `EthTools.getUnit()`
+* `wei` (`String|Number`) - the amount of wei to convert and format
+* `format` (`String`) - the format see [numeral.js](http://numeraljs.com) for examples, e.g. `"0,0.00[0000]"`.
+* `unit` (`String`) - (optional) the unit to convert the given wei amount to, if not given it will use `EthTools.getUnit()`
 
 **Returns**
 
@@ -225,11 +224,15 @@ You can then reactivly change the unit using `EthTools.setUnit('finney')`
 **Example**
 
 ```js
-var amount = EthTools.formatBalance(112345676543212345, '0,0.0[00] unit', 'finney');
+var amount = EthTools.formatBalance(
+  112345676543212345,
+  "0,0.0[00] unit",
+  "finney"
+);
 // amount = "112.346 finney"
 ```
 
-***
+---
 
 #### Format balances template helper
 
@@ -249,7 +252,7 @@ If you leave the last value it will use `EthTools.getUnit()`, as reactive locals
 
 Use then `EthTools.setUnit(finney')` to change the unit and displayed balances.
 
-***
+---
 
 ### EthTools.toWei
 
@@ -264,8 +267,8 @@ You can then reactivly change the unit using `EthTools.setUnit('finney')`
 
 **Parameters**
 
-- `number` (`String|Number`) - the number of a unit, see [Usage](#usage) for more
-- `unit` (`String`) - the unit of the given number
+* `number` (`String|Number`) - the number of a unit, see [Usage](#usage) for more
+* `unit` (`String`) - the unit of the given number
 
 **Returns**
 
@@ -274,6 +277,6 @@ You can then reactivly change the unit using `EthTools.setUnit('finney')`
 **Example**
 
 ```js
-var wei = EthTools.toWei(23, 'btc');
+var wei = EthTools.toWei(23, "btc");
 // wei = "80000000000000000000"
 ```
