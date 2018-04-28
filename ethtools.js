@@ -160,8 +160,10 @@ EthTools.formatNumber = function(number, format) {
   if (_.isString(number)) number = new BigNumber(number, 10);
   if (_.isFinite(number) && !_.isObject(number)) number = new BigNumber(number);
 
+  // See also https://en.wikipedia.org/wiki/Decimal_separator
+  // default decimal and thousands separators
   options =
-    EthTools.lang === "en"
+    (["en", "he", "ja", "ko", "th", "zh"].indexOf(EthTools.lang) > -1)
       ? {
           decimalSeparator: ".",
           groupSeparator: ",",
