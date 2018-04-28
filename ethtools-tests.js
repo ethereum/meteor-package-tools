@@ -150,6 +150,22 @@ Tinytest.add("EthTools.formatBalance", function(test) {
     "1.0000000000000000000"
   );
 
+  // check all other currencies
+  var currencies = ['jpy', 'aud', 'cad', 'chf', 'cny', 'sek', 'nzd', 'mxn', 'sgd', 'nok',
+                    'krw', 'try', 'rub', 'inr', 'brl', 'zar'];
+  currencies.forEach(function (cur) {
+    // set price
+    EthTools.ticker.upsert(cur, {$set: { price: '1.00000', timestamp: null }});
+    test.equal(
+      EthTools.formatBalance(
+        "1000000000000000000",
+        "0,0.0000000000000000000",
+        cur
+      ),
+      "1.0000000000000000000"
+    );
+  });
+
   // reset
   if (Meteor.isClient) EthTools.setUnit("ether");
 });
