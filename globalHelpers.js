@@ -8,7 +8,7 @@ Formats a number.
 @param {String} format       the format string
 @return {String} The formatted number
 **/
-Template.registerHelper('dapp_formatNumber', EthTools.formatNumber);
+Template.registerHelper("dapp_formatNumber", EthTools.formatNumber);
 
 /**
 Formats a number.
@@ -20,4 +20,4 @@ Formats a number.
 @param {String} format       the format string
 @return {String} The formatted number
 **/
-Template.registerHelper('dapp_formatBalance', EthTools.formatBalance);
+Template.registerHelper("dapp_formatBalance", EthTools.formatBalance);
