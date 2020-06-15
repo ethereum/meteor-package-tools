@@ -43,13 +43,10 @@ Check for supported currencies
 @return {String}
 */
 var supportedCurrencies = function(unit) {
-  return (
-    unit === "usd" ||
-    unit === "eur" ||
-    unit === "btc" ||
-    unit === "gbp" ||
-    unit === "brl"
-  );
+  // https://en.wikipedia.org/wiki/Currency
+  var currencies = ['btc', 'usd', 'eur', 'jpy', 'gbp', 'aud', 'cad', 'chf', 'cny', 'sek',
+                    'nzd', 'mxn', 'sgd', 'nok', 'krw', 'try', 'rub', 'inr', 'brl', 'zar'];
+  return (currencies.indexOf(unit) > -1);
 };
 
 /**
