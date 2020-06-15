@@ -63,11 +63,23 @@ var getUnit = function(unit) {
     if (!unit) {
       unit = "ether";
       LocalStore.set("dapp_etherUnit", unit);
+      LocalStore.set("dapp_etherAlias", unit);
     }
   }
 
   return unit;
 };
+
+/**
+Gets the ether alias if not set from localstorage
+
+@method getAlias
+@return {String}
+*/
+var getAlias = function() {
+  return LocalStore.get("dapp_etherAlias") || LocalStore.get("dapp_etherUnit");
+};
+
 
 /**
 Helper functions for ethereum dapps
@@ -98,9 +110,13 @@ if (isMeteorPackage) {
       try {
         web3.utils.toWei('1', unit);
         LocalStore.set("dapp_etherUnit", unit);
+        LocalStore.set("dapp_etherAlias", unit);
         return true;
       } catch (e) {
-        return false;
+        // set alias
+        LocalStore.set("dapp_etherUnit", "ether");
+        LocalStore.set("dapp_etherAlias", unit);
+        return true;
       }
     }
   };
@@ -115,6 +131,18 @@ if (isMeteorPackage) {
     **/
   EthTools.getUnit = function() {
     return LocalStore.get("dapp_etherUnit");
+  };
+
+  /**
+    Get the alias used by all EthTools functions.
+
+        EthTools.getAlias()
+
+    @method getAlias
+    @return {String} alias the alias like 'etc', or 'etz'
+    **/
+  EthTools.getAlias = function() {
+    return LocalStore.get("dapp_etherAlias");
   };
 }
 
@@ -236,6 +264,7 @@ EthTools.formatBalance = function(number, format, unit) {
   format = format || "0,0.[00000000]";
 
   unit = getUnit(unit);
+  var alias = getAlias();
 
   if (typeof EthTools.ticker !== "undefined" && supportedCurrencies(unit)) {
     var ticker = EthTools.ticker.findOne(unit, { fields: { price: 1 } });
@@ -257,6 +286,7 @@ EthTools.formatBalance = function(number, format, unit) {
     } else {
       number = "0";
     }
+    alias = unit;
   } else {
     number = web3.utils.fromWei(
       number instanceof BigNumber || typeof number === "number"
@@ -274,7 +304,7 @@ EthTools.formatBalance = function(number, format, unit) {
   if (format.toLowerCase().indexOf("unit") !== -1) {
     return format
       .replace("__format__", EthTools.formatNumber(number, cleanedFormat))
-      .replace(/unit/i, isUppercase ? unit.toUpperCase() : unit);
+      .replace(/unit/i, isUppercase ? alias.toUpperCase() : alias);
   } else return EthTools.formatNumber(number, cleanedFormat);
 };
 
